@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>192284839774-u6k1vv4dh09tcl333i3kvrerimtqo6qd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.192284839774-u6k1vv4dh09tcl333i3kvrerimtqo6qd</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>192284839774-8on1s3q733sequk5r67grmgnbbqir3et.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDO6SBhFJ1YK-HddJ-_eCFfjhEXUuPoP8Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>192284839774</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.iotcontrol</string>
+	<key>PROJECT_ID</key>
+	<string>controliot-8aaa1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>controliot-8aaa1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:192284839774:ios:6b85ba4488480be29289cf</string>
+	<key>DATABASE_URL</key>
+	<string>https://controliot-8aaa1-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

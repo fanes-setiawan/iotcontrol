@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "192284839774",
+    "firebase_url": "https://controliot-8aaa1-default-rtdb.firebaseio.com",
+    "project_id": "controliot-8aaa1",
+    "storage_bucket": "controliot-8aaa1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192284839774:android:0800f241108579a39289cf",
+        "android_client_info": {
+          "package_name": "com.example.iotcontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192284839774-5c59gulsg1htreffon9tb7857l6ekqe7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByX6MO--TijdUmUHKDttumd4teYFVT4dA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "192284839774-5c59gulsg1htreffon9tb7857l6ekqe7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "192284839774-9k18rh3llkoolirdndoemjgdit3e0v2m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.healthengineapps"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

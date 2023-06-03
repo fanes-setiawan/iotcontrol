@@ -295,7 +295,7 @@ class HomeView extends StatefulWidget {
                                     borderRadius: 30.0,
                                     padding: 10.0,
                                     showOnOff: true,
-                                    onToggle: (val) {
+                                    onToggle: (val) async {
                                       controller.status(index, val);
                                     },
                                   ),

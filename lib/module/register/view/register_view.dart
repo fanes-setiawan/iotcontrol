@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:iotcontrol/core.dart';
-import '../controller/sigup_controller.dart';
+import '../controller/register_controller.dart';
 
-class SigupView extends StatefulWidget {
-  const SigupView({Key? key}) : super(key: key);
+class RegisterView extends StatefulWidget {
+  const RegisterView({Key? key}) : super(key: key);
 
-  Widget build(context, SigupController controller) {
+  Widget build(context, RegisterController controller) {
     controller.view = this;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sigup"),
+        title: const Text("Register"),
         actions: const [],
       ),
       body: SingleChildScrollView(
@@ -25,5 +25,5 @@ class SigupView extends StatefulWidget {
   }
 
   @override
-  State<SigupView> createState() => SigupController();
+  State<RegisterView> createState() => RegisterController();
 }

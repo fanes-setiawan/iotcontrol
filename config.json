@@ -1,8 +1,8 @@
 {
     "openai_key": "",
     "modules": [
-        "sigup",
-        "sigin",
+        "login",
+        "register",
         "home",
         "navbar"
     ]

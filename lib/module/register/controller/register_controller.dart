@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iotcontrol/state_util.dart';
-import '../view/sigin_view.dart';
+import '../view/register_view.dart';
 
-class SiginController extends State<SiginView> implements MvcController {
-  static late SiginController instance;
-  late SiginView view;
+class RegisterController extends State<RegisterView> implements MvcController {
+  static late RegisterController instance;
+  late RegisterView view;
 
   @override
   void initState() {
