@@ -17,11 +17,7 @@ class NavbarView extends StatefulWidget {
         height: 100,
         color: Colors.green,
       ),
-      Container(
-        width: 200,
-        height: 200,
-        color: Colors.blue,
-      ),
+      ProfilView(),
     ];
     return Scaffold(
       body: page[controller.currentIndex],

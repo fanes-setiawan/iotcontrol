@@ -1,10 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iotcontrol/core.dart';
 import 'package:iotcontrol/state_util.dart';
 import '../view/register_view.dart';
 
 class RegisterController extends State<RegisterView> implements MvcController {
   static late RegisterController instance;
   late RegisterView view;
+  bool obscureState = true;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  visibilitySt() {
+    obscureState = !obscureState;
+    setState(() {}); // Memperbarui tampilan dengan setState
+  }
 
   @override
   void initState() {
@@ -17,4 +27,33 @@ class RegisterController extends State<RegisterView> implements MvcController {
 
   @override
   Widget build(BuildContext context) => widget.build(context, this);
+  String username = "";
+  String email = "";
+  String password = "";
+
+  doSignupEmail() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final User? user = auth.currentUser;
+      if (user != null) {
+        final FirebaseFirestore db = FirebaseFirestore.instance;
+        try {
+          await db.collection('users').add({
+            'username': username,
+            'email': email,
+            'password': password,
+            'id': FirebaseAuth.instance.currentUser!.uid,
+          });
+        } on Exception catch (err) {
+          print(err);
+        }
+      }
+      Get.to(LoginView());
+    } on Exception catch (err) {
+      print("signup gagal: ${err}");
+    }
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iotcontrol/core.dart';
+import '../../../widget/input/buttonText.dart';
+import '../../../widget/input/formText.dart';
 import '../controller/register_controller.dart';
 
 class RegisterView extends StatefulWidget {
@@ -9,16 +11,95 @@ class RegisterView extends StatefulWidget {
     controller.view = this;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Register"),
-        actions: const [],
-      ),
+      backgroundColor: Colors.grey.shade200,
       body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: const [],
-          ),
+        controller: ScrollController(),
+        child: Column(
+          children: [
+            SizedBox(height: 100),
+            Image.asset(
+              "assets/icons/logotext.png",
+              width: 150.0,
+              height: 150.0,
+              fit: BoxFit.fill,
+            ),
+            SizedBox(height: 100),
+            Text(
+              "Sign up",
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            FormText(
+              hintText: "Username",
+              helperText: "enter your username",
+              obscureText: false,
+              onPressed: (value) {
+                controller.username = value;
+              },
+            ),
+            FormText(
+              hintText: "Email",
+              helperText: "enter your email",
+              obscureText: false,
+              onPressed: (value) {
+                controller.email = value;
+              },
+            ),
+            FormText(
+              hintText: "Password",
+              helperText: "enter your password",
+              obscureText: controller.obscureState,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  controller.visibilitySt();
+                },
+                icon: Icon(
+                  controller.obscureState
+                      ? Icons.visibility
+                      : Icons.visibility_off,
+                  color: Colors.grey,
+                ),
+              ),
+              onPressed: (value) {
+                controller.password = value;
+              },
+            ),
+            ButtonText(
+              color: Colors.blue,
+              text: "Sign Up",
+              onPressed: () async {
+                await controller.doSignupEmail();
+              },
+            ),
+            SizedBox(height: 15.0),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Get.to(LoginView());
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: "already have an account? ",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Sign in",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

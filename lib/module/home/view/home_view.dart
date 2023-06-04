@@ -10,6 +10,7 @@ class HomeView extends StatefulWidget {
     controller.view = this;
 
     return Scaffold(
+      backgroundColor: Colors.grey.shade100,
       body: SingleChildScrollView(
         controller: ScrollController(),
         child: SafeArea(
@@ -21,13 +22,27 @@ class HomeView extends StatefulWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "My Home",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 23.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/icons/logoIoT.png'),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          "IoT Control",
+                          style: TextStyle(
+                            color: Colors.blue.shade800,
+                            fontSize: 23.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
                       width: 50,
@@ -46,13 +61,6 @@ class HomeView extends StatefulWidget {
                   ],
                 ),
                 SizedBox(height: 12.0),
-                Text(
-                  "Fanes Setiawan",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 SizedBox(height: 20),
                 Container(
                   width: MediaQuery.of(context).size.width,

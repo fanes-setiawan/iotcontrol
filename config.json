@@ -4,6 +4,8 @@
         "login",
         "register",
         "home",
+        "profil",
+        "editProfile",
         "navbar"
     ]
 }
