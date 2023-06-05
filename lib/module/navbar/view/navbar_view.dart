@@ -12,24 +12,20 @@ class NavbarView extends StatefulWidget {
 
     List page = [
       HomeView(),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.green,
-      ),
+      DataAnalystView(),
       ProfilView(),
     ];
     return Scaffold(
       body: page[controller.currentIndex],
       bottomNavigationBar: CircleNavBar(
-        activeIcons: const [
-          Icon(Icons.home, color: Colors.deepPurple),
-          Icon(Icons.calendar_month, color: Colors.deepPurple),
-          Icon(Icons.people_alt, color: Colors.deepPurple),
+        activeIcons: [
+          Icon(Icons.home, color: Colors.blue.shade700),
+          Icon(Icons.animation_rounded, color: Colors.blue.shade700),
+          Icon(Icons.account_circle, color: Colors.blue.shade700),
         ],
         inactiveIcons: const [
           Text("Home"),
-          Text("Calender"),
+          Text("Data"),
           Text("Profil"),
         ],
         color: Colors.white,

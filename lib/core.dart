@@ -3,6 +3,8 @@ We believe, the class name must be unique.
 If there is a conflicting class name in this file,
 it means you have to rename it to something more unique.
 */
+export 'package:iotcontrol/module/dataAnalyst/controller/dataAnalyst_controller.dart';
+export 'package:iotcontrol/module/dataAnalyst/view/dataAnalyst_view.dart';
 export 'package:iotcontrol/module/editProfile/controller/editProfile_controller.dart';
 export 'package:iotcontrol/module/editProfile/view/editProfile_view.dart';
 export 'package:iotcontrol/module/home/controller/home_controller.dart';

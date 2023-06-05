@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iotcontrol/core.dart';
 import 'package:iotcontrol/widget/input/qImagePicker.dart';
@@ -30,83 +32,129 @@ class EditProfileView extends StatefulWidget {
         centerTitle: true,
         actions: const [],
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            QImagePicker(label: "Image", onChanged: (value) {}),
-            SizedBox(height: 15.0),
-            Container(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.only(),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: "Name",
-                  labelStyle: TextStyle(
-                    color: Colors.blueGrey,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueGrey,
+      body: SingleChildScrollView(
+        controller: ScrollController(),
+        child: StreamBuilder<DocumentSnapshot<Object?>>(
+          stream: FirebaseFirestore.instance
+              .collection("users")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) return const Text("Error");
+            if (!snapshot.hasData) return const Text("No Data");
+            Map<String, dynamic> item =
+                (snapshot.data!.data() as Map<String, dynamic>);
+            item["id"] = snapshot.data!.id;
+            return Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  QImagePicker(
+                      label: "Image",
+                      onChanged: (value) {
+                        controller.phone = value;
+                      }),
+                  SizedBox(height: 15.0),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(),
+                    child: TextFormField(
+                      initialValue: item['username'] ?? '',
+                      decoration: InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                        helperText: "edit your username?",
+                      ),
+                      onChanged: (value) {
+                        controller.username = value;
+                      },
                     ),
                   ),
-                  helperText: "edit your name?",
-                ),
-                onChanged: (value) {},
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.only(),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: "Alamat",
-                  labelStyle: TextStyle(
-                    color: Colors.blueGrey,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueGrey,
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(),
+                    child: TextFormField(
+                      initialValue: item['address'] ?? '',
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                        helperText: "edit your address?",
+                      ),
+                      onChanged: (value) {
+                        controller.address = value;
+                      },
                     ),
                   ),
-                  helperText: "edit your address?",
-                ),
-                onChanged: (value) {},
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(12),
-              margin: const EdgeInsets.only(),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: "Email",
-                  labelStyle: TextStyle(
-                    color: Colors.blueGrey,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.blueGrey,
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(),
+                    child: TextFormField(
+                      initialValue: item['phone'] ?? '',
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                        helperText: "edit your phone number?",
+                      ),
+                      onChanged: (value) {
+                        controller.phone = value;
+                      },
                     ),
                   ),
-                  helperText: "edit your email?",
-                ),
-                onChanged: (value) {},
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(),
+                    child: TextFormField(
+                      initialValue: item['email'] ?? '',
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                        helperText: "edit your email?",
+                      ),
+                      onChanged: (value) {},
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.save_as_rounded),
+                    label: const Text("Save"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue.shade700,
+                    ),
+                    onPressed: () async {
+                      controller.doSave(item);
+                      Get.offAll(NavbarView());
+                    },
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 25),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.save_as_rounded),
-              label: const Text("Save"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue.shade700,
-              ),
-              onPressed: () {
-                Get.to(EditProfileView());
-              },
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

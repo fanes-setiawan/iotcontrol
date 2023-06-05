@@ -41,7 +41,7 @@ class RegisterController extends State<RegisterView> implements MvcController {
       if (user != null) {
         final FirebaseFirestore db = FirebaseFirestore.instance;
         try {
-          await db.collection('users').add({
+          await db.collection('users').doc(user.uid).set({
             'username': username,
             'email': email,
             'password': password,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,7 +10,7 @@ class LoginController extends State<LoginView> implements MvcController {
   static late LoginController instance;
   late LoginView view;
 
-  bool obscureState = false;
+  bool obscureState = true;
 
   visibilitySt() {
     obscureState = !obscureState;
@@ -67,6 +68,25 @@ class LoginController extends State<LoginView> implements MvcController {
         debugPrint("userCredential: $userCredential");
         // TODO: on login success
         //------------------
+        final user = userCredential.user;
+        final String? username = user?.displayName;
+        final String? email = user?.email;
+        final String? id = user?.uid;
+        final String? phone = user?.phoneNumber;
+
+        final FirebaseFirestore db = FirebaseFirestore.instance;
+        try {
+          await db.collection('users').doc(id).set({
+            'username': username,
+            'email': email,
+            'phone': phone,
+            'photo': user?.photoURL,
+            'id': id,
+          });
+        } on Exception catch (err) {
+          print(err);
+        }
+
         Get.offAll(NavbarView());
       } catch (_) {}
     } on Exception catch (err) {
