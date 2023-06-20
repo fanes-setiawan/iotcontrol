@@ -11,10 +11,11 @@ class LoginController extends State<LoginView> implements MvcController {
   late LoginView view;
 
   bool obscureState = true;
+  bool isLoading = false; // Status loading
 
   visibilitySt() {
     obscureState = !obscureState;
-    setState(() {}); // Memperbarui tampilan dengan setState
+    setState(() {});
   }
 
   @override
@@ -28,23 +29,38 @@ class LoginController extends State<LoginView> implements MvcController {
 
   @override
   Widget build(BuildContext context) => widget.build(context, this);
-  String email = "";
-  String password = "";
 
-  doEmailLogin() async {
+  String? email;
+  String? password;
+
+  Future<void> doEmailLogin() async {
     try {
+      setState(() {
+        isLoading = true; // Set status loading menjadi true sebelum login
+      });
+
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: email!,
+        password: password!,
       );
-      Get.offAll(NavbarView());
+      Get.offAll(IdProductView());
     } on Exception catch (err) {
-      print("login error: ${err}");
+      print("login error: $err");
+    } finally {
+      setState(() {
+        isLoading =
+            false; // Set status loading menjadi false setelah login selesai
+      });
+      Get.offAll(IdProductView());
     }
   }
 
-  doGoogleLogin() async {
+  Future<void> doGoogleLogin() async {
     try {
+      setState(() {
+        isLoading = true; // Set status loading menjadi true sebelum login
+      });
+
       GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: [
           'email',
@@ -72,14 +88,12 @@ class LoginController extends State<LoginView> implements MvcController {
         final String? username = user?.displayName;
         final String? email = user?.email;
         final String? id = user?.uid;
-        final String? phone = user?.phoneNumber;
 
         final FirebaseFirestore db = FirebaseFirestore.instance;
         try {
-          await db.collection('users').doc(id).set({
+          await db.collection('users').doc(id).update({
             'username': username,
             'email': email,
-            'phone': phone,
             'photo': user?.photoURL,
             'id': id,
           });
@@ -87,10 +101,15 @@ class LoginController extends State<LoginView> implements MvcController {
           print(err);
         }
 
-        Get.offAll(NavbarView());
+        Get.offAll(IdProductView());
       } catch (_) {}
     } on Exception catch (err) {
       print(err);
+    } finally {
+      setState(() {
+        isLoading =
+            false; // Set status loading menjadi false setelah login selesai
+      });
     }
   }
 }

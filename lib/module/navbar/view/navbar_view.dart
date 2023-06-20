@@ -1,7 +1,6 @@
 import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iotcontrol/core.dart';
-
 import '../controller/navbar_controller.dart';
 
 class NavbarView extends StatefulWidget {
@@ -12,7 +11,7 @@ class NavbarView extends StatefulWidget {
 
     List page = [
       HomeView(),
-      DataAnalystView(),
+      ChartView(),
       ProfilView(),
     ];
     return Scaffold(
@@ -20,18 +19,18 @@ class NavbarView extends StatefulWidget {
       bottomNavigationBar: CircleNavBar(
         activeIcons: [
           Icon(Icons.home, color: Colors.blue.shade700),
-          Icon(Icons.animation_rounded, color: Colors.blue.shade700),
+          Icon(Icons.phone_iphone_sharp, color: Colors.blue.shade700),
           Icon(Icons.account_circle, color: Colors.blue.shade700),
         ],
         inactiveIcons: const [
           Text("Home"),
-          Text("Data"),
+          Text("Chart"),
           Text("Profil"),
         ],
         color: Colors.white,
         circleColor: Colors.white,
-        height: 60,
-        circleWidth: 60,
+        height: 50,
+        circleWidth: 50,
         activeIndex: controller.currentIndex,
         onTap: (newIndex) {
           controller.updateIndex(newIndex);

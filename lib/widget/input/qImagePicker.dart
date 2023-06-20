@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -142,93 +140,81 @@ class _QImagePickerState extends State<QImagePicker> {
   }
 
   Widget build(BuildContext context) {
-    return StreamBuilder<DocumentSnapshot<Object?>>(
-      stream: FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) return const Text("Error");
-        if (!snapshot.hasData) return const Text("No Data");
-        Map<String, dynamic> item =
-            (snapshot.data!.data() as Map<String, dynamic>);
-        item["id"] = snapshot.data!.id;
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 100.0,
-                    width: 100.0,
-                    decoration: BoxDecoration(
-                      color: loading ? Colors.blueGrey[900] : Colors.white,
-                      image: loading
-                          ? null
-                          : DecorationImage(
-                              image: NetworkImage(
-                                imageUrl == null ? item['photo'] : imageUrl!,
-                              ),
-                              fit: BoxFit.cover),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(50.0),
-                      ),
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: 100.0,
+                  width: 100.0,
+                  decoration: BoxDecoration(
+                    color: loading ? Colors.blueGrey[900] : Colors.white,
+                    image: loading
+                        ? null
+                        : DecorationImage(
+                            image: NetworkImage(
+                              imageUrl == null
+                                  ? 'https://e7.pngegg.com/pngimages/282/256/png-clipart-user-profile-avatar-computer-icons-google-account-black-accounting.png'
+                                  : imageUrl!,
+                            ),
+                            fit: BoxFit.cover),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(50.0),
                     ),
-                    child: Visibility(
-                      visible: loading == true,
-                      child: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 20.0,
-                              height: 20.0,
-                              child: CircularProgressIndicator(
-                                color: Colors.orange,
-                              ),
+                  ),
+                  child: Visibility(
+                    visible: loading == true,
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20.0,
+                            height: 20.0,
+                            child: CircularProgressIndicator(
+                              color: Colors.orange,
                             ),
-                            SizedBox(
-                              height: 6.0,
+                          ),
+                          SizedBox(
+                            height: 6.0,
+                          ),
+                          Text(
+                            "Uploading...",
+                            style: TextStyle(
+                              fontSize: 9.0,
                             ),
-                            Text(
-                              "Uploading...",
-                              style: TextStyle(
-                                fontSize: 9.0,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: loading ? Colors.grey : Colors.blue.shade800,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Center(
-                        child: IconButton(
-                          onPressed: () => browsePhoto(),
-                          icon: Icon(Icons.edit, size: 17, color: Colors.white),
-                        ),
+                ),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: loading ? Colors.grey : Colors.blue.shade800,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Center(
+                      child: IconButton(
+                        onPressed: () => browsePhoto(),
+                        icon: Icon(Icons.edit, size: 17, color: Colors.white),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
+                  ),
+                )
+              ],
+            ),
+          ],
+        ));
   }
 }

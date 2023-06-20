@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:intl/intl.dart';
 import 'package:iotcontrol/core.dart';
 import '../controller/home_controller.dart';
 
@@ -44,90 +46,163 @@ class HomeView extends StatefulWidget {
                         ),
                       ],
                     ),
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(),
-                      ),
-                      child: Center(
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.add),
-                        ),
+                    IconButton(
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        print("pickedDate: $pickedDate");
+                      },
+                      icon: Icon(
+                        Icons.date_range,
+                        size: 35.0,
+                        color: Colors.blue.shade700,
                       ),
                     ),
                   ],
                 ),
                 SizedBox(height: 12.0),
-                SizedBox(height: 20),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 175,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                Text(
+                  "${controller.currentLocation}",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
                   ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        right: 0,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width - 100,
-                          height: 175,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: Colors.blue[50],
-                            // image: DecorationImage(
-                            //   image: AssetImage('assets/image/wallp.jpg'),
-                            //   fit: BoxFit.cover,
-                            //   colorFilter: ColorFilter.srgbToLinearGamma(),
-                            // ),
-                          ),
+                ),
+                SizedBox(height: 12.0),
+                controller.modelWeather != null
+                    ? Container(
+                        width: MediaQuery.of(context).size.width,
+                        // height: 130,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(35),
+                          color: Colors.blue,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Cuaca \nLantai 1",
+                                "Current weather",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
                               ),
                               SizedBox(height: 10),
-                              Text(
-                                "27 °C",
-                                style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 55,
-                                ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 50,
+                                            height: 20,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      'https://openweathermap.org/img/wn/${controller.modelWeather!.icon}.png'),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          )
+                                              .animate(
+                                                  onPlay: (controller) =>
+                                                      controller.repeat())
+                                              .shake(
+                                                  duration: Duration(
+                                                      milliseconds: 500)),
+                                          Text(
+                                            "${DateFormat('EEEE, dd/MM/yy').format(DateTime.fromMillisecondsSinceEpoch(controller.modelWeather!.sunset * 1000))}",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${controller.modelWeather!.feelsLike.toStringAsFixed(1)}",
+                                            style: TextStyle(
+                                              color: Colors.orange,
+                                              fontSize: 50,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            "°C",
+                                            style: TextStyle(
+                                              color: Colors.orange,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Precipitation   : ${controller.modelWeather!.cloudiness}%",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Humidity : ${controller.modelWeather!.humidity}%",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Wind Speed : ${controller.modelWeather!.windSpeed}%",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sunrise: ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(controller.modelWeather!.sunrise * 1000))}",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Sunset: ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(controller.modelWeather!.sunset * 1000))}",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: 20,
-                        left: 10,
-                        child: Container(
-                          width: 120,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/image/1.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10),
+                      )
+                    : Center(child: Text("loading...")),
+                SizedBox(height: 20),
                 Text(
-                  "Device",
+                  "Menu",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -139,34 +214,28 @@ class HomeView extends StatefulWidget {
                   builder: (context) {
                     List horizontalMenuList = [
                       {
-                        "icon": Icons.menu_book_outlined,
-                        "label": "Menu",
+                        "icon": Icons.thermostat_outlined,
+                        "label": "Suhu",
                         "color": Color.fromARGB(108, 233, 11, 203),
-                        "onTap": () {},
+                        "onTap": () {
+                          Get.to(SuhuDHTView());
+                        }
                       },
                       {
-                        "icon": Icons.lightbulb_sharp,
-                        "label": "Lights",
+                        "icon": Icons.ac_unit_sharp,
+                        "label": "Humidity",
                         "color": Color.fromARGB(109, 233, 26, 11),
-                        "onTap": () {},
-                      },
-                      {
-                        "icon": Icons.connected_tv,
-                        "label": "CCTV",
-                        "color": Color.fromARGB(85, 221, 218, 23),
-                        "onTap": () {},
-                      },
-                      {
-                        "icon": Icons.thermostat,
-                        "label": "Thermostat",
-                        "color": Color.fromARGB(84, 63, 231, 12),
-                        "onTap": () {},
+                        "onTap": () {
+                          Get.to(HumidityDHTView());
+                        },
                       },
                       {
                         "icon": Icons.fireplace,
-                        "label": "Gas",
-                        "color": Color.fromARGB(83, 12, 231, 184),
-                        "onTap": () {},
+                        "label": "Gas/Smoke",
+                        "color": Color.fromARGB(85, 221, 218, 23),
+                        "onTap": () {
+                          Get.to(AsapMq7View());
+                        },
                       },
                     ];
                     return SizedBox(
@@ -186,7 +255,7 @@ class HomeView extends StatefulWidget {
                               shadowColor: Colors.transparent,
                               elevation: 0.0,
                             ),
-                            onPressed: () {},
+                            onPressed: item["onTap"],
                             child: Column(
                               children: [
                                 Container(
@@ -222,7 +291,7 @@ class HomeView extends StatefulWidget {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  "Rooms",
+                  "Button",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -238,14 +307,12 @@ class HomeView extends StatefulWidget {
                         "label": "Light L1",
                         "image": AssetImage('assets/image/lamp.png'),
                         "color": Colors.white,
-                        "onTap": () {},
                       },
                       {
                         "icon": Icons.install_desktop_outlined,
                         "label": "LightL L2",
                         "image": AssetImage('assets/image/lamp.png'),
                         "color": Colors.white,
-                        "onTap": () {},
                       },
                     ];
                     return Container(
@@ -254,68 +321,93 @@ class HomeView extends StatefulWidget {
                         physics: NeverScrollableScrollPhysics(),
                         crossAxisCount: 2, // Tentukan jumlah kolom
                         crossAxisSpacing: 20,
+                        childAspectRatio: 0.9,
                         mainAxisSpacing: 20,
                         padding: EdgeInsets.all(0),
-                        children: List.generate(menuRoom.length, (index) {
-                          var room = menuRoom[index];
-                          return Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: controller.buttomStatusList[index]
-                                  ? Colors.yellow
-                                  : room['color'],
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.shade500,
-                                  blurRadius: 3,
-                                  offset: Offset(5, 5),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: room['image'],
+                        children: List.generate(
+                          menuRoom.length,
+                          (index) {
+                            var room = menuRoom[index];
+                            bool buttonStatus =
+                                controller.buttonStatusList[index];
+
+                            return Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: buttonStatus
+                                    ? Colors.yellow
+                                    : room['color'],
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade500,
+                                    blurRadius: 5,
+                                    offset: Offset(3, 5),
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: buttonStatus ? 60 : 100,
+                                      height: buttonStatus ? 60 : 100,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: room['image'],
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      room['label'],
+                                      style: TextStyle(
+                                        color: Colors.blueGrey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      child: FlutterSwitch(
+                                        width: 50.0,
+                                        height: 25.0,
+                                        valueFontSize: 14.0,
+                                        toggleSize: 10.0,
+                                        value: buttonStatus,
+                                        borderRadius: 30.0,
+                                        padding: 5.0,
+                                        showOnOff: true,
+                                        onToggle: (val) async {
+                                          controller.status(index, val);
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    if (buttonStatus)
+                                      Slider(
+                                        onChanged: (value) {
+                                          controller.stateSliderValue(
+                                              index, value);
+                                        },
+                                        min: 0,
+                                        max: 1023,
+                                        label: controller
+                                            .currentSliderList[index]
+                                            .round()
+                                            .toString(),
+                                        value:
+                                            controller.currentSliderList[index],
+                                      ),
+                                  ],
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  room['label'],
-                                  style: TextStyle(
-                                    color: Colors.blueGrey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Container(
-                                  child: FlutterSwitch(
-                                    width: 65.0,
-                                    height: 35.0,
-                                    valueFontSize: 14.0,
-                                    toggleSize: 20.0,
-                                    value: controller.buttomStatusList[index],
-                                    borderRadius: 30.0,
-                                    padding: 10.0,
-                                    showOnOff: true,
-                                    onToggle: (val) async {
-                                      controller.status(index, val);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     );
                   },
-                )
+                ),
               ],
             ),
           ),

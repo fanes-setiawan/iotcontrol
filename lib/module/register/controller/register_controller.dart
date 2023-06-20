@@ -9,6 +9,7 @@ class RegisterController extends State<RegisterView> implements MvcController {
   static late RegisterController instance;
   late RegisterView view;
   bool obscureState = true;
+  bool isLoading = false; // Tambahkan variabel isLoading
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   visibilitySt() {
@@ -33,6 +34,11 @@ class RegisterController extends State<RegisterView> implements MvcController {
 
   doSignupEmail() async {
     try {
+      setState(() {
+        isLoading =
+            true; // Mengatur isLoading menjadi true saat proses sign up dimulai
+      });
+
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -51,7 +57,13 @@ class RegisterController extends State<RegisterView> implements MvcController {
           print(err);
         }
       }
+
       Get.to(LoginView());
+
+      setState(() {
+        isLoading =
+            false; // Mengatur isLoading menjadi false setelah proses sign up selesai
+      });
     } on Exception catch (err) {
       print("signup gagal: ${err}");
     }

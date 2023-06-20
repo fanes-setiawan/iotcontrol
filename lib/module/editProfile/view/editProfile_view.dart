@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iotcontrol/core.dart';
 import 'package:iotcontrol/widget/input/qImagePicker.dart';
+import 'package:iotcontrol/widget/output/loading.dart';
 import '../controller/editProfile_controller.dart';
 
 class EditProfileView extends StatefulWidget {
@@ -33,7 +34,6 @@ class EditProfileView extends StatefulWidget {
         actions: const [],
       ),
       body: SingleChildScrollView(
-        controller: ScrollController(),
         child: StreamBuilder<DocumentSnapshot<Object?>>(
           stream: FirebaseFirestore.instance
               .collection("users")
@@ -41,21 +41,26 @@ class EditProfileView extends StatefulWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) return const Text("Error");
-            if (!snapshot.hasData) return const Text("No Data");
+            if (!snapshot.hasData)
+              return Center(
+                child: Loading(),
+              );
             Map<String, dynamic> item =
                 (snapshot.data!.data() as Map<String, dynamic>);
             item["id"] = snapshot.data!.id;
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(10.0),
+            return Padding(
+              padding: const EdgeInsets.all(15.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   QImagePicker(
-                      label: "Image",
-                      onChanged: (value) {
-                        controller.phone = value;
-                      }),
+                    label: "Image",
+                    value: item['photo'] ??
+                        'https://e7.pngegg.com/pngimages/282/256/png-clipart-user-profile-avatar-computer-icons-google-account-black-accounting.png',
+                    onChanged: (value) {
+                      controller.photo = value;
+                    },
+                  ),
                   SizedBox(height: 15.0),
                   Container(
                     padding: const EdgeInsets.all(12),
@@ -139,6 +144,25 @@ class EditProfileView extends StatefulWidget {
                       onChanged: (value) {},
                     ),
                   ),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    margin: const EdgeInsets.only(),
+                    child: TextFormField(
+                      initialValue: item['idProduct'] ?? '',
+                      decoration: const InputDecoration(
+                        labelStyle: TextStyle(
+                          color: Colors.blueGrey,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                        helperText: "edit your code product?",
+                      ),
+                      onChanged: (value) {},
+                    ),
+                  ),
                   SizedBox(height: 25),
                   ElevatedButton.icon(
                     icon: const Icon(Icons.save_as_rounded),
@@ -148,7 +172,7 @@ class EditProfileView extends StatefulWidget {
                     ),
                     onPressed: () async {
                       controller.doSave(item);
-                      Get.offAll(NavbarView());
+                      Get.back();
                     },
                   ),
                 ],

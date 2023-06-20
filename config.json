@@ -1,12 +1,19 @@
 {
-    "openai_key": "",
     "modules": [
         "login",
         "register",
         "home",
         "profil",
         "editProfile",
-        "dataAnalyst",
-        "navbar"
-    ]
+        "chart",
+        "idProduct",
+        "navbar",
+        "suhuDHT",
+        "humidityDHT",
+        "asapMq7",
+        "loading"
+    ],
+    "module_directory_name": "module",
+    "experimental_mode": false,
+    "unfreezed": true
 }

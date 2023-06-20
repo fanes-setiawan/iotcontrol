@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:iotcontrol/core.dart';
 import '../../../widget/input/buttonText.dart';
 import '../../../widget/input/formText.dart';
@@ -11,12 +12,13 @@ class RegisterView extends StatefulWidget {
     controller.view = this;
 
     return Scaffold(
+      extendBodyBehindAppBar: false,
       backgroundColor: Colors.grey.shade200,
       body: SingleChildScrollView(
         controller: ScrollController(),
         child: Column(
           children: [
-            SizedBox(height: 100),
+            SizedBox(height: 50),
             Image.asset(
               "assets/icons/logotext.png",
               width: 150.0,
@@ -27,9 +29,10 @@ class RegisterView extends StatefulWidget {
             Text(
               "Sign up",
               style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold),
+                color: Colors.blue,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             FormText(
               hintText: "Username",
@@ -66,13 +69,19 @@ class RegisterView extends StatefulWidget {
                 controller.password = value;
               },
             ),
-            ButtonText(
-              color: Colors.blue,
-              text: "Sign Up",
-              onPressed: () async {
-                await controller.doSignupEmail();
-              },
-            ),
+            if (controller.isLoading)
+              SpinKitThreeBounce(
+                color: Colors.blue,
+                size: 40.0,
+              )
+            else
+              ButtonText(
+                color: Colors.blue,
+                text: "Sign Up",
+                onPressed: () async {
+                  await controller.doSignupEmail();
+                },
+              ),
             SizedBox(height: 15.0),
             Center(
               child: TextButton(
@@ -98,7 +107,7 @@ class RegisterView extends StatefulWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
