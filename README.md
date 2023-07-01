@@ -20,3 +20,30 @@ samples, guidance on mobile development, and a full API reference.
 Anda dapat melihat presentasi Flutter di sini:
 
 - [Tautan ke Presentasi Flutter](https://github.com/fanes-setiawan/IoTInspector_Apps/blob/main/ppt.pdf)
+
+### Pratinjau Presentasi
+
+1. **Alat dan Bahan:**
+
+   ![Alat dan Bahan](alat_dan_bahan.png)
+
+   Gambar ini menampilkan alat dan bahan yang digunakan dalam proyek ini.
+
+2. **Flow:**
+
+   ![Flow](flow.png)
+
+   Gambar ini memperlihatkan diagram alur atau flow dari aplikasi yang dikembangkan.
+
+3. **Rangkaian:**
+
+   ![Rangkaian](rangkaian.png)
+
+   Gambar ini menunjukkan rangkaian atau skema elektronik yang digunakan dalam proyek.
+
+4. **UI/UX:**
+
+   ![UI/UX](uiux.png)
+
+   Gambar ini merupakan tampilan antarmuka pengguna (UI) atau pengalaman pengguna (UX) dari aplikasi.
+
