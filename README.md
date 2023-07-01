@@ -19,5 +19,4 @@ samples, guidance on mobile development, and a full API reference.
 
 Anda dapat melihat presentasi Flutter di sini:
 
-- [Tautan ke Presentasi Flutter](ppt.pdf)
-- [![Pratinjau Presentasi](gambar_presentasi.png)](ppt.pdf)
+- [Tautan ke Presentasi Flutter](https://github.com/fanes-setiawan/IoTInspector_Apps/blob/main/ppt.pdf)
