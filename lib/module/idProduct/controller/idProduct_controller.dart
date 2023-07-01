@@ -29,7 +29,7 @@ class IdProductController extends State<IdProductView>
 
   String idProduct = '';
 
-  void doIdProduct() async {
+  doIdProduct() async {
     await checkAndRequestLocationPermissions();
     setState(() {
       isLoading = true;
@@ -44,10 +44,12 @@ class IdProductController extends State<IdProductView>
     List<dynamic> codeProductList = data['codeProduct'];
 
     if (codeProductList.contains(idProduct)) {
-      await FirebaseFirestore.instance
+      FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({'idProduct': idProduct});
+      print("INI ID PRODUCT");
+      print(idProduct);
 
       setState(() {
         isLoading = false;

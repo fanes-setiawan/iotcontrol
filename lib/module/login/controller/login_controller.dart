@@ -44,14 +44,17 @@ class LoginController extends State<LoginView> implements MvcController {
         password: password!,
       );
       Get.offAll(IdProductView());
-    } on Exception catch (err) {
-      print("login error: $err");
+    } on FirebaseAuthException catch (err) {
+      print("Login error: ${err.code} - ${err.message}");
+      // TODO: Handle login error, show error message to the user
+    } catch (err) {
+      print("Login error: $err");
+      // TODO: Handle login error, show error message to the user
     } finally {
       setState(() {
         isLoading =
             false; // Set status loading menjadi false setelah login selesai
       });
-      Get.offAll(IdProductView());
     }
   }
 
@@ -91,7 +94,7 @@ class LoginController extends State<LoginView> implements MvcController {
 
         final FirebaseFirestore db = FirebaseFirestore.instance;
         try {
-          await db.collection('users').doc(id).update({
+          await db.collection('users').doc(id).set({
             'username': username,
             'email': email,
             'photo': user?.photoURL,
@@ -100,11 +103,14 @@ class LoginController extends State<LoginView> implements MvcController {
         } on Exception catch (err) {
           print(err);
         }
-
         Get.offAll(IdProductView());
-      } catch (_) {}
+      } catch (err) {
+        print("Google login error: $err");
+        // TODO: Handle Google login error, show error message to the user
+      }
     } on Exception catch (err) {
-      print(err);
+      print("Google login error: $err");
+      // TODO: Handle Google login error, show error message to the user
     } finally {
       setState(() {
         isLoading =

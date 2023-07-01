@@ -38,7 +38,7 @@ class IdProductView extends StatefulWidget {
                   SizedBox(width: 10),
                   IconButton(
                     onPressed: () async {
-                      controller.doIdProduct();
+                      await controller.doIdProduct();
                     },
                     icon: Icon(
                       Icons.send_rounded,

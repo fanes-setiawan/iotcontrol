@@ -101,8 +101,8 @@ class LoginView extends StatefulWidget {
                   child: Text("-or-"),
                 ),
                 InkWell(
-                  onTap: () {
-                    controller.doGoogleLogin();
+                  onTap: () async {
+                    await controller.doGoogleLogin();
                   },
                   child: Image.asset(
                     "assets/icons/iconsGoogle.png",
