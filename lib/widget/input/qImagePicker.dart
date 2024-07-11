@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:flutter/foundation.dart';
 
@@ -166,7 +166,7 @@ class _QImagePickerState extends State<QImagePicker> {
                   ),
                   child: Visibility(
                     visible: loading == true,
-                    child: SizedBox(
+                    child: const SizedBox(
                       width: 30,
                       height: 30,
                       child: Column(
